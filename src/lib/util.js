@@ -1,7 +1,10 @@
+// Function to aggregate crop data by average yield and area for each year
 export function cropAverageYieldAreaAggregate(cropsData) {
+  // Object to store aggregated data
   const aggregatedData = {};
   cropsData.forEach((entry) => {
     const year = entry.Year.split(",")[1].trim();
+    // If the year is not already in aggregatedData, initialize its properties
     if (!aggregatedData[year]) {
       aggregatedData[year] = {
         maxProductionCrops: [],
@@ -10,14 +13,17 @@ export function cropAverageYieldAreaAggregate(cropsData) {
         minProduction: Infinity,
       };
     }
+    // Extracting the production value from the entry, defaulting to 0 if not present
     const production =
       parseFloat(entry["Crop Production (UOM:t(Tonnes))"]) || 0;
+    // Update max production and corresponding crops
     if (production > aggregatedData[year].maxProduction) {
       aggregatedData[year].maxProduction = production;
       aggregatedData[year].maxProductionCrops = [entry["Crop Name"]];
     } else if (production === aggregatedData[year].maxProduction) {
       aggregatedData[year].maxProductionCrops.push(entry["Crop Name"]);
     }
+    // Update min production and corresponding crops
     if (production < aggregatedData[year].minProduction) {
       aggregatedData[year].minProduction = production;
       aggregatedData[year].minProductionCrops = [entry["Crop Name"]];

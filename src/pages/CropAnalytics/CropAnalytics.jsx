@@ -7,15 +7,17 @@ import {
   cropAverageYieldAreaAggregate,
   cropProductionYearlyAggregate,
 } from "../../lib/util";
-
+// Defining the CropAnalytics component
 export default function CropAnalytics() {
   const [activeTab, setActiveTab] = useState(
     "Crop_Production_Yearly_Aggregate"
   );
-
+  // Function to generate table content based on the selected tab
   function generateTableContent(table) {
     if (table === "Crop_Production_Yearly_Aggregate") {
+      // Calculating crop production yearly aggregate
       const meta = cropAverageYieldAreaAggregate(cropsData);
+      // Mapping through the years and creating table rows
       return Object.keys(meta).map((year) => (
         <Table.Tr key={year}>
           <Table.Td>{year}</Table.Td>
@@ -24,6 +26,8 @@ export default function CropAnalytics() {
         </Table.Tr>
       ));
     } else if (table === "Crop_Average_Yield_Area_Aggregate") {
+      // Calculating crop average yield area aggregate
+
       const meta = cropProductionYearlyAggregate(cropsData, 1950, 2020);
       return Object.keys(meta).map((cropName) => (
         <Table.Tr key={cropName}>
@@ -59,7 +63,7 @@ export default function CropAnalytics() {
       ],
     },
   ];
-
+  // Rendering the component
   return (
     <Tabs value={activeTab} onChange={setActiveTab}>
       <Tabs.List>
